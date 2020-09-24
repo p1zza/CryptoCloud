@@ -4,16 +4,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CryptoCloud.Models
 {
-    class MainViewModel : INotifyPropertyChanged
+    class MainViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop ="")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
+
         private int _Clicks;
         public int Clicks
         {
@@ -21,20 +18,18 @@ namespace CryptoCloud.Models
             set
             {
                 _Clicks = value;
-                OnPropertyChanged();
             }
         }
 
-        public MainViewModel()
+        public ICommand ClickAdd
         {
-            Task.Factory.StartNew(() =>
+            get
             {
-                while (true)
+                return new DelegateCommand((obj) =>
                 {
-                    Task.Delay(1000).Wait();
                     Clicks++;
-                }
-            });
+                });
+            }
         }
     }
 }
